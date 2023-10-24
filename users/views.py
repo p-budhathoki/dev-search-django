@@ -1,15 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-# from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db.models import Q
+from django.dispatch.dispatcher import receiver
 from django.shortcuts import redirect, render
+from django.urls import conf
 
 from .forms import CustomUserCreationForm, MessageForm, ProfileForm, SkillForm
 from .models import Message, Profile
-from .utils import paginationProfiles, searchProfiles
+from .utils import paginateProfiles, searchProfiles
 
 # Create your views here.
 
@@ -25,7 +25,7 @@ def loginUser(request):
         password = request.POST["password"]
 
         try:
-            user = User.objects.get("users/login_register.html")
+            user = User.objects.get(username=username)
         except:
             messages.error(request, "Username does not exist")
 
@@ -41,7 +41,7 @@ def loginUser(request):
 
 def logoutUser(request):
     logout(request)
-    messages.error(request, "User was logged out")
+    messages.info(request, "User was logged out")
     return redirect("login")
 
 
@@ -69,7 +69,7 @@ def registerUser(request):
 
 def profiles(request):
     profiles, search_query = searchProfiles(request)
-    custom_range, profiles = paginationProfiles(request, profiles, 3)
+    custom_range, profiles = paginateProfiles(request, profiles, 3)
     context = {
         "profiles": profiles,
         "search_query": search_query,
@@ -135,7 +135,7 @@ def createSkill(request):
 def updateSkill(request, pk):
     profile = request.user.profile
     skill = profile.skill_set.get(id=pk)
-    form = SkillForm(isinstance=skill)
+    form = SkillForm(instance=skill)
 
     if request.method == "POST":
         form = SkillForm(request.POST, instance=skill)

@@ -1,10 +1,10 @@
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db.models import Q
 
 from .models import Project, Tag
 
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
-def paginationProjects(request, projects, results):
+def paginateProjects(request, projects, results):
     page = request.GET.get("page")
     # results = 3
     paginator = Paginator(projects, results)

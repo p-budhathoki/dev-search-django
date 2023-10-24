@@ -2,6 +2,11 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models.signals import post_delete, post_save
+from django.dispatch import receiver
+
+# Create your models here.
+
 
 # Create your models here.
 
@@ -32,8 +37,19 @@ class Profile(models.Model):
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
 
-    def __str__(self) -> str:
-        return str(self.user.username)
+    def __str__(self):
+        return str(self.username)
+
+    class Meta:
+        ordering = ["created"]
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.profile_image.url
+        except:
+            url = ""
+        return url
 
 
 class Skill(models.Model):
@@ -46,7 +62,7 @@ class Skill(models.Model):
         default=uuid.uuid4, unique=True, primary_key=True, editable=False
     )
 
-    def __str__(self) -> str:
+    def __str__(self):
         return str(self.name)
 
 

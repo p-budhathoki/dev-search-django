@@ -25,7 +25,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ProjectSerializer(serializers.ModelSerializer):
     # owner field utilizes  ProfileSerializer and returns object
     owner = ProfileSerializer(many=False)
-    tags = TagSerializer(many=False)
+    tags = TagSerializer(many=True)
     reviews = serializers.SerializerMethodField()
 
     class Meta:

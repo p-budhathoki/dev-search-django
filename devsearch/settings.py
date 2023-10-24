@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # "debug_toolbar",
     "projects.apps.ProjectsConfig",
     "users.apps.UsersConfig",
     "rest_framework",
@@ -86,6 +87,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 
@@ -107,7 +109,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "devsearch.wsgi.application"
+# WSGI_APPLICATION = "devsearch.wsgi.application"
+WSGI_APPLICATION = "application"
 
 
 # Database

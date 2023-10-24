@@ -4,7 +4,7 @@ from django.db.models import Q
 from .models import Profile, Skill
 
 
-def paginationProfiles(request, profiles, results):
+def paginateProfiles(request, profiles, results):
     page = request.GET.get("page")
     # results = 3
     paginator = Paginator(profiles, results)
